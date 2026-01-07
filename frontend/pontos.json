@@ -3,26 +3,28 @@
     "id": "ponte",
     "titulo": "Ponte Romana",
     "descricao": "Monumento romano sobre o Rio Lima.",
-    "coords": { "lat": 41.769, "lng": -8.584 },
+    "coords": {
+      "lat": 41.769,
+      "lng": -8.584
+    },
     "assets": {
-      "markerPattern": "assets/pattern-ponte.patt",
-      "modelo3D": "assets/soldado.glb",
-      "audio": "assets/audio_ponte.mp3",
-      "escala": "0.5 0.5 0.5",
-      "imagemIcone":null
+      "markerValue": "1",
+      "audio": "audio_ponte.mp3",
+      "imagemIcone": "ponteRomanaPTL.png"
     }
   },
   {
     "id": "camoes",
     "titulo": "Largo de Camões",
     "descricao": "Centro histórico da vila.",
-    "coords": { "lat": 41.768, "lng": -8.583 },
+    "coords": {
+      "lat": 41.768,
+      "lng": -8.583
+    },
     "assets": {
-      "markerPattern": "assets/pattern-camoes.patt",
-      "modelo3D": "assets/chafariz.glb",
-      "audio": "assets/audio_camoes.mp3",
-      "escala": "1 1 1",
-      "imagemIcone":null
+      "markerValue": "2",
+      "audio": "audio_camoes.mp3",
+      "imagemIcone": null
     }
   }
 ]
