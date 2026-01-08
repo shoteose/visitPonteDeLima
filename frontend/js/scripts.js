@@ -4,6 +4,7 @@ var userMarker;
 var userPos = null;
 var somAtual = null;
 var pontoMaisProximo = null;
+var primeiraVezGPS = true;
 
 window.onload = async () => {
     try {
@@ -12,6 +13,7 @@ window.onload = async () => {
 
         iniciarMapa();
         monitorizarGPS();
+        configurarEventosMira();
 
         const scene = document.querySelector('a-scene');
         if (scene) {
@@ -34,7 +36,14 @@ function iniciarMapa() {
         zoom: 16,
         maxBounds: bounds,
         maxBoundsViscosity: 1.0,
-        minZoom: 15
+        minZoom: 15,
+        zoomControl: false,
+        attributionControl: false,
+        tap: false,
+        dragging: true,
+        scrollWheelZoom: true,
+        touchZoom: true,
+        bounceAtZoomLimits: false
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -52,6 +61,28 @@ function iniciarMapa() {
     });
 }
 
+// efeito mira css
+function configurarEventosMira() {
+    const cursor3D = document.querySelector('#cursor-3d');
+    const miraCSS = document.querySelector('#mira-central');
+
+    if (cursor3D && miraCSS) {
+        cursor3D.addEventListener('fusing', function () {
+            miraCSS.classList.add('focando');
+        });
+
+        cursor3D.addEventListener('mouseleave', function () {
+            miraCSS.classList.remove('focando');
+        });
+
+        cursor3D.addEventListener('click', function () {
+            miraCSS.classList.remove('focando');
+            miraCSS.style.backgroundColor = 'rgba(0, 255, 0, 0.8)';
+            setTimeout(() => { miraCSS.style.backgroundColor = 'white'; }, 300);
+        });
+    }
+}
+
 function monitorizarGPS() {
     if (!navigator.geolocation) return;
     navigator.geolocation.watchPosition(pos => {
@@ -62,6 +93,11 @@ function monitorizarGPS() {
             userMarker = L.marker([userPos.lat, userPos.lng], { icon: i }).addTo(map);
         } else {
             userMarker.setLatLng([userPos.lat, userPos.lng]);
+        }
+
+        if (primeiraVezGPS) {
+            map.setView([userPos.lat, userPos.lng], 16);
+            primeiraVezGPS = false;
         }
 
         atualizarBotao();

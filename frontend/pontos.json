@@ -24,7 +24,77 @@
     "assets": {
       "markerValue": "2",
       "audio": "audio_camoes.mp3",
-      "imagemIcone": null
+      "imagemIcone": "chafariz.jpg"
+    }
+  },
+  {
+    "id": "torre_cadeia",
+    "titulo": "Torre da Cadeia Velha",
+    "descricao": "Antiga torre das muralhas e ex-prisão, hoje Loja de Turismo.",
+    "coords": {
+      "lat": 41.767284,
+      "lng": -8.585160
+    },
+    "assets": {
+      "markerValue": "3",
+      "audio": "audio_torre.mp3",
+      "imagemIcone": "torreCadeia.jpg"
+    }
+  },
+  {
+    "id": "igreja_matriz",
+    "titulo": "Igreja Matriz",
+    "descricao": "Igreja gótica dedicada a Santa Maria dos Anjos.",
+    "coords": {
+      "lat": 41.767649,
+      "lng": -8.584302
+    },
+    "assets": {
+      "markerValue": "4",
+      "audio": "audio_matriz.mp3",
+      "imagemIcone": "igrejaMatriz.jpg"
+    }
+  },
+  {
+    "id": "platanos",
+    "titulo": "Avenida dos Plátanos",
+    "descricao": "Famosa alameda pedonal com plátanos centenários.",
+    "coords": {
+      "lat": 41.765432,
+      "lng": -8.587505
+    },
+    "assets": {
+      "markerValue": "5",
+      "audio": "audio_platanos.mp3",
+      "imagemIcone": "platanos.jpg"
+    }
+  },
+  {
+    "id": "teatro",
+    "titulo": "Teatro Diogo Bernardes",
+    "descricao": "Teatro histórico de estilo italiano do século XIX.",
+    "coords": {
+      "lat": 41.764968,
+      "lng": -8.586568
+    },
+    "assets": {
+      "markerValue": "6",
+      "audio": "audio_teatro.mp3",
+      "imagemIcone": "teatroDB.jpg"
+    }
+  },
+  {
+    "id": "soldados",
+    "titulo": "Soldados Romanos Lenda do Esquecimento",
+    "descricao": "Lenda do Rio do Esquecimentos e os soldados romanos.",
+    "coords": {
+      "lat": 41.76755,
+      "lng": -8.5865
+    },
+    "assets": {
+      "markerValue": "7",
+      "audio": "lendaRio.mp3",
+      "imagemIcone": "soldadosRomanos.jpg"
     }
   }
 ]
