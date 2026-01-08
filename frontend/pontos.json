@@ -9,7 +9,7 @@
     },
     "assets": {
       "markerValue": "1",
-      "audio": "audio_ponte.mp3",
+      "audio": "ponte.mp3",
       "imagemIcone": "ponteRomanaPTL.png"
     }
   },
@@ -23,7 +23,7 @@
     },
     "assets": {
       "markerValue": "2",
-      "audio": "audio_camoes.mp3",
+      "audio": "camoes.mp3",
       "imagemIcone": "chafariz.jpg"
     }
   },
@@ -37,7 +37,7 @@
     },
     "assets": {
       "markerValue": "3",
-      "audio": "audio_torre.mp3",
+      "audio": "torreCadeia.mp3",
       "imagemIcone": "torreCadeia.jpg"
     }
   },
@@ -51,7 +51,7 @@
     },
     "assets": {
       "markerValue": "4",
-      "audio": "audio_matriz.mp3",
+      "audio": "igrejaMatriz.mp3",
       "imagemIcone": "igrejaMatriz.jpg"
     }
   },
@@ -65,7 +65,7 @@
     },
     "assets": {
       "markerValue": "5",
-      "audio": "audio_platanos.mp3",
+      "audio": "platanos.mp3",
       "imagemIcone": "platanos.jpg"
     }
   },
@@ -79,7 +79,7 @@
     },
     "assets": {
       "markerValue": "6",
-      "audio": "audio_teatro.mp3",
+      "audio": "teatro.mp3",
       "imagemIcone": "teatroDB.jpg"
     }
   },
@@ -93,7 +93,7 @@
     },
     "assets": {
       "markerValue": "7",
-      "audio": "lendaRio.mp3",
+      "audio": "soldados.mp3",
       "imagemIcone": "soldadosRomanos.jpg"
     }
   }
