@@ -78,7 +78,6 @@ html {
     }
 }
 
-
 .custom-map-icon,
 .user-marker {
     border-radius: 50%;
@@ -95,9 +94,26 @@ html {
     z-index: 2000 !important;
 }
 
-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
+#ar-scene-placeholder {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.a-canvas {
+    z-index: 10 !important;
+    position: absolute !important;
+    top: 0 !important; left: 0 !important;
+    width: 100% !important; height: 100% !important;
+    pointer-events: auto !important;
+}
+
+video, .arjs-video {
+    z-index: -10 !important;
+    position: absolute !important;
+    top: 0; left: 0;
+    object-fit: cover !important;
 }
