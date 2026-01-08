@@ -95,6 +95,9 @@ function atualizarBotao() {
 }
 
 function iniciarAR(ponto) {
+
+    if (!ponto) return;
+
     const scene = document.querySelector('a-scene');
 
     // limpar anteriores
@@ -104,18 +107,64 @@ function iniciarAR(ponto) {
         marker.remove();
     }
 
-
-    if (!ponto || !ponto.assets || !ponto.assets.markerValue) {
-        console.error("Erro", "Valor do Barcode não definido no JSON");
-        return;
-    }
-
     // cria o marker do ponto
     const marker = document.createElement('a-marker');
     marker.setAttribute('type', 'barcode');
     marker.setAttribute('value', ponto.assets.markerValue);
 
+    marker.setAttribute('smooth', 'true');
+    marker.setAttribute('smoothCount', '10');
+    marker.setAttribute('smoothTolerance', '0.01');
+    marker.setAttribute('smoothThreshold', '5');
+
+
     // ira ser um soldado a falar afinal
+    const animacoesFala = ["Talking_1", "Talking_2", "Talking_3", "Talking_4"];
+
+    const caminhoDoModelo = 'assets/models/Soldado.glb';
+
+    const modelo = document.createElement('a-entity');
+    modelo.setAttribute('gltf-model', caminhoDoModelo);
+    modelo.setAttribute('scale', '3 3 3');
+    modelo.setAttribute('position', '0 0 0');
+    modelo.setAttribute('class', 'clicavel');
+
+    // ele está em idle primeiro so se lhe m,riarem fala
+    modelo.setAttribute('animation-mixer', 'clip: Idle; loop: repeat; crossFadeDuration: 0.5');
+    modelo.setAttribute('look-at', '[camera]');
+
+
+    // precisa da hitbox para o click ser melhorzinho senao so o solado e lixado
+    const hitbox = document.createElement('a-box');
+    hitbox.setAttribute('position', '0 0.5 0');
+    hitbox.setAttribute('scale', '3 3.5 3');
+    hitbox.setAttribute('material', 'opacity: 0; transparent: true');
+    hitbox.setAttribute('class', 'clicavel');
+
+    marker.appendChild(modelo);
+    marker.appendChild(hitbox);
+
+    if (ponto.assets.audio) {
+        marker.setAttribute('sound', `src: url(${ponto.assets.audio}); autoplay: false; volume: 2`);
+
+        hitbox.addEventListener('click', function () {
+            let soundComp = marker.components.sound;
+
+            if (soundComp && !soundComp.playing) {
+                soundComp.playSound();
+
+                // escolhe uma animcacao 
+                const animacaoSorteada = animacoesFala[Math.floor(Math.random() * animacoesFala.length)];
+
+                modelo.setAttribute('animation-mixer', `clip: ${animacaoSorteada}; loop: repeat; crossFadeDuration: 0.5`);
+            }
+        });
+
+        marker.addEventListener('sound-ended', function () {
+            modelo.setAttribute('animation-mixer', 'clip: Idle; loop: repeat; crossFadeDuration: 0.5');
+        });
+
+    }
 
     scene.appendChild(marker);
 }
@@ -131,7 +180,6 @@ function abrirAR() {
     const scene = document.querySelector('a-scene');
     scene.play();
 
-    console.log("Iniciando AR para o ponto:", pontoMaisProximo);
     iniciarAR(pontoMaisProximo);
 }
 
@@ -139,13 +187,24 @@ function fecharAR() {
     // esconde AR
     document.getElementById('interface-ar').style.display = 'none';
 
-    if (scene.components.sound) scene.components.sound.stopSound();
-    scene.pause();
-
     // mnostra a mapa e o botao
     document.getElementById('interface-mapa').style.display = 'flex';
     document.getElementById('btn-ar-floating').style.display = 'flex';
 
+    const scene = document.querySelector('a-scene');
+
+    if (scene.components.sound) {
+        scene.components.sound.stopSound();
+    }
+
+    const markersAntigos = scene.querySelectorAll('a-marker');
+
+    for (const marker of markersAntigos) {
+        if (marker.components.sound) marker.components.sound.stopSound();
+        marker.remove();
+    }
+
+    scene.pause();
     // da reload ao mapa, porque ele fica bugado ao voltar
     setTimeout(() => { if (map) map.invalidateSize(); }, 100);
 }

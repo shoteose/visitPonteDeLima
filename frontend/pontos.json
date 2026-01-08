@@ -4,8 +4,8 @@
     "titulo": "Ponte Romana",
     "descricao": "Monumento romano sobre o Rio Lima.",
     "coords": {
-      "lat": 41.769,
-      "lng": -8.584
+      "lat": 41.76882,
+      "lng": -8.58449
     },
     "assets": {
       "markerValue": "1",
@@ -18,8 +18,8 @@
     "titulo": "Largo de Camões",
     "descricao": "Centro histórico da vila.",
     "coords": {
-      "lat": 41.768,
-      "lng": -8.583
+      "lat": 41.768541502111546,
+      "lng": -8.5842876461812
     },
     "assets": {
       "markerValue": "2",
