@@ -5,6 +5,7 @@ var userPos = null;
 var somAtual = null;
 var pontoMaisProximo = null;
 var primeiraVezGPS = true;
+var arCarregado = false;
 
 window.onload = async () => {
     try {
@@ -13,7 +14,6 @@ window.onload = async () => {
 
         iniciarMapa();
         monitorizarGPS();
-        configurarEventosMira();
 
         const scene = document.querySelector('a-scene');
         if (scene) {
@@ -180,6 +180,8 @@ function iniciarAR(ponto) {
     marker.appendChild(modelo);
     marker.appendChild(hitbox);
 
+    console.log("o soldado foi posto");
+
     if (ponto.assets.audio) {
         marker.setAttribute('sound', `src: url(${ponto.assets.audio}); autoplay: false; volume: 2`);
 
@@ -207,40 +209,87 @@ function iniciarAR(ponto) {
 
 function abrirAR() {
     // esconde mapa e o botao
-    document.getElementById('interface-mapa').style.display = 'none';
-    document.getElementById('btn-ar-floating').style.display = 'none';
+    document.getElementById('modo-mapa').classList.add('d-none');
+    document.getElementById('modo-mapa').classList.remove('d-flex');
+    document.getElementById('btn-ar-floating').classList.add('d-none');
+    document.getElementById('btn-ar-floating').classList.remove('d-flex');
 
-    // mostra AR 
-    document.getElementById('interface-ar').style.display = 'block';
+    document.getElementById('modo-ar').classList.remove('d-none');
 
-    const scene = document.querySelector('a-scene');
-    scene.play();
+    if (!arCarregado) {
+        injetarCenaAR();
+    } else {
+        const scene = document.querySelector('a-scene');
+        if (scene) scene.play();
 
-    iniciarAR(pontoMaisProximo);
+        console.log("Reiniciando AR para:", pontoMaisProximo);
+        iniciarAR(pontoMaisProximo);
+    }
+}
+
+// isto so porque se a cena fosse logo carregada dava erro ao iniciar na pagina de mostrar meio mapa e meia camara na pagina que fica tudo mal
+// por isso so carrega a cena ao iniciar ar que evita esse problema, tendo o placeholder a dizer que esta a carrregar nao fica mal
+function injetarCenaAR() {
+    // mostra o loading
+    document.getElementById('ar-loading').classList.remove('d-none');
+
+    const placeholder = document.getElementById('ar-scene-placeholder');
+
+    const htmlCena = `
+        <a-scene embedded
+            arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+            vr-mode-ui="enabled: false"
+            renderer="logarithmicDepthBuffer: true;">
+            
+            <a-assets id="assets-loader"></a-assets>
+            
+            <a-entity camera>
+                <a-cursor id="cursor-3d" fuse="true" fuseTimeout="1500" material="opacity: 0; transparent: true"
+                    raycaster="objects: .clicavel"></a-cursor>
+            </a-entity>
+        </a-scene>
+    `;
+
+    // meto a cena agora na pagina
+    placeholder.innerHTML = htmlCena;
+    arCarregado = true;
+
+    setTimeout(() => {
+        console.log("a iniciar o AR depois do loading", pontoMaisProximo);
+        iniciarAR(pontoMaisProximo);
+
+        document.getElementById('ar-loading').classList.add('d-none');
+        configurarEventosMira();
+    }, 2000);
 }
 
 function fecharAR() {
-    // esconde AR
-    document.getElementById('interface-ar').style.display = 'none';
+    // esconde ar
+    document.getElementById('modo-ar').classList.add('d-none');
 
-    // mnostra a mapa e o botao
-    document.getElementById('interface-mapa').style.display = 'flex';
-    document.getElementById('btn-ar-floating').style.display = 'flex';
+    // mostra mapa e o botao
+    document.getElementById('modo-mapa').classList.remove('d-none');
+    document.getElementById('modo-mapa').classList.add('d-flex');
+
+    document.getElementById('btn-ar-floating').classList.remove('d-none');
+    document.getElementById('btn-ar-floating').classList.add('d-flex');
 
     const scene = document.querySelector('a-scene');
+    if (scene) {
+        if (scene.components.sound) scene.components.sound.stopSound();
 
-    if (scene.components.sound) {
-        scene.components.sound.stopSound();
-    }
-
-    const markersAntigos = scene.querySelectorAll('a-marker');
-
-    for (const marker of markersAntigos) {
-        if (marker.components.sound) marker.components.sound.stopSound();
-        marker.remove();
+        const markersAntigos = scene.querySelectorAll('a-marker');
+        for (const marker of markersAntigos) {
+            if (marker.components.sound) marker.components.sound.stopSound();
+            marker.remove();
+        }
+        scene.pause();
     }
 
     scene.pause();
     // da reload ao mapa, porque ele fica bugado ao voltar
-    setTimeout(() => { if (map) map.invalidateSize(); }, 100);
+    setTimeout(() => {
+        if (map) map.invalidateSize();
+        if (userPos) map.setView([userPos.lat, userPos.lng], 16);
+    }, 100);
 }
