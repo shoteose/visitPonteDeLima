@@ -2,6 +2,7 @@ import DataManager from './managers/DataManager.js';
 import MapManager from './managers/MapManager.js';
 import UIManager from './managers/UIManager.js';
 import ARManager from './managers/ARManager.js';
+import GPSManager from './managers/GPSManager.js';
 
 // Logica de game, controlador que chama os outros managers para fazerem o seu trabalho
 class AppController {
@@ -10,6 +11,7 @@ class AppController {
         this.map = new MapManager('mapid');
         this.ui = new UIManager();
         this.ar = new ARManager();
+        this.gps = new GPSManager();
 
         this.userPos = null;
         this.pontoMaisProximoInfo = null;
@@ -40,9 +42,8 @@ class AppController {
     }
 
     monitorizarGPS() {
-        if (!navigator.geolocation) return;
-        navigator.geolocation.watchPosition(pos => {
-            this.userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        this.gps.monitorizar((coords) => {
+            this.userPos = coords;
 
             this.map.atualizarUserMarker(this.userPos);
 
@@ -51,13 +52,14 @@ class AppController {
                 this.primeiraVezGPS = false;
             }
 
-            // Verifica proximidade
             this.pontoMaisProximoInfo = this.data.calcularPontoMaisProximo(this.userPos, this.map.getMapInstance());
+
             if (!this.arAtivo) {
                 this.ui.atualizarBotao(this.pontoMaisProximoInfo);
             }
-
-        }, err => console.error(err), { enableHighAccuracy: true });
+        }, (erro) => {
+            console.error("Erro GPS:", erro);
+        });
     }
 
     async abrirAR() {
