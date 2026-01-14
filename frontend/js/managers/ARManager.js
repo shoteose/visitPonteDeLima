@@ -78,7 +78,7 @@ export default class ARManager {
         const modelo = document.createElement('a-entity');
         modelo.setAttribute('gltf-model', 'assets/models/Soldado.glb');
         modelo.setAttribute('scale', '3 3 3');
-        modelo.setAttribute('position', '0 -3 0');
+        modelo.setAttribute('position', '0 -6 0');
         modelo.setAttribute('rotation', '-90 0 0');
         // modelo.setAttribute('look-at', '[camera]');
         modelo.setAttribute('animation-mixer', 'clip: Idle; loop: repeat; crossFadeDuration: 0.5');
