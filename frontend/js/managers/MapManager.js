@@ -53,7 +53,7 @@ export default class MapManager {
     atualizarUserMarker(userPos) {
         if (!this.userMarker) {
             const icon = L.divIcon({ className: 'user-marker', iconSize: [15, 15] });
-            this.userMarker = L.marker([userPos.lat, userPos.lng], { icon }).addTo(this.map);
+            this.userMarker = L.marker([userPos.lat, userPos.lng], { icon: icon, zIndexOffset: 1000 }).addTo(this.map);
         } else {
             this.userMarker.setLatLng([userPos.lat, userPos.lng]);
         }
