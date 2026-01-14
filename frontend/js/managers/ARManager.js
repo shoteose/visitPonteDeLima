@@ -18,10 +18,17 @@ export default class ARManager {
 
         const html = `
             <a-scene embedded
-                arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; 
-                sourceWidth:1280; sourceHeight:960; displayWidth:${w}; displayHeight:${h};"
-                vr-mode-ui="enabled: false"
-                renderer="logarithmicDepthBuffer: true;">
+                arjs="sourceType: webcam;
+                debugUIEnabled: false; 
+                detectionMode: mono_and_matrix; 
+                matrixCodeType: 3x3; 
+                sourceWidth:1280; 
+                sourceHeight:960;
+                displayWidth:${w};
+                displayHeight:${h};"
+                vr-mode-ui="enabled: false
+                labelingMode: black_region;"
+                renderer="antialias: true; precision: medium; logarithmicDepthBuffer: true;">
                 <a-assets id="assets-loader"></a-assets>
                 <a-entity camera>
                     <a-cursor id="cursor-3d" fuse="true" fuseTimeout="1500" material="opacity: 0; transparent: true" raycaster="objects: .clicavel"></a-cursor>
