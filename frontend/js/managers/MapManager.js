@@ -34,7 +34,17 @@ export default class MapManager {
             });
 
             var marker = L.marker([ponto.coords.lat, ponto.coords.lng], { icon: icon }).addTo(this.map);
-            marker.bindPopup(`<div class="text-center"><b>${ponto.titulo}</b><br>${ponto.descricao}</div>`);
+
+            const popupContent = `
+                <div class="text-center" style="max-width:200px;">
+                    <h6 class="fw-bold mb-1">${ponto.titulo}</h6>
+                    <div style="max-height:100px; overflow-y:auto;" class="text-secondary small mb-2">
+                        ${ponto.descricao}
+                    </div>
+                </div>
+            `;
+
+            marker.bindPopup(popupContent);
 
             setTimeout(() => this.map.invalidateSize(), 200);
         });

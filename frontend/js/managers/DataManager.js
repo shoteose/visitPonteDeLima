@@ -1,6 +1,8 @@
 export default class DataManager {
     constructor() {
         this.dados = [];
+        const salvos = localStorage.getItem('locaisVisitados');
+        this.visitados = salvos ? new Set(JSON.parse(salvos)) : new Set();
     }
 
     async carregarDados() {
@@ -13,9 +15,29 @@ export default class DataManager {
         }
     }
 
+    adicionarVisitado(id) {
+        if (id && !this.visitados.has(id)) {
+            this.visitados.add(id);
+            this.guardarProgresso();
+            return true;
+        }
+        return false;
+    }
+
+    guardarProgresso() {
+        localStorage.setItem('locaisVisitados', JSON.stringify([...this.visitados]));
+    }
+
+    getProgresso() {
+        return {
+            visitados: this.visitados.size,
+            total: this.dados.length
+        };
+    }
+
     calcularPontoMaisProximo(userPos, mapInstance) {
         if (!userPos || !mapInstance) return null;
-        
+
         var menorDistancia = 99999;
         var tempPonto = null;
 
@@ -27,6 +49,9 @@ export default class DataManager {
             }
         });
 
-        return (menorDistancia < 20) ? tempPonto : null;
+        return {
+            ponto: tempPonto,
+            distancia: menorDistancia
+        };
     }
 }

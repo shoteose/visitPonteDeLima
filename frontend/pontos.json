@@ -2,9 +2,11 @@
   {
     "id": "ponte",
     "titulo": "Ponte Romana",
-    "descricao": "Monumento romano sobre o Rio Lima.",
-    "swiperDescricao": "Esta imponente ponte é composta por dois troços: um romano, com arcos de volta perfeita, e outro medieval. É um marco fundamental para os peregrinos do Caminho de Santiago.",
-    "coords": { "lat": 41.76882, "lng": -8.58449 },
+    "descricao": "Esta imponente ponte é composta por dois troços: um romano, com arcos de volta perfeita, e outro medieval. É um marco fundamental para os peregrinos do Caminho de Santiago.",
+    "coords": {
+      "lat": 41.76882,
+      "lng": -8.58449
+    },
     "assets": {
       "markerValue": "1",
       "audio": "ponte.mp3",
@@ -14,9 +16,11 @@
   {
     "id": "camoes",
     "titulo": "Largo de Camões",
-    "descricao": "Centro histórico da vila.",
-    "swiperDescricao": "O coração pulsante de Ponte de Lima, onde se destaca o Chafariz Nobre de 1603. É o ponto de encontro perfeito para apreciar a arquitetura tradicional e a vida local.",
-    "coords": { "lat": 41.768541502111546, "lng": -8.5842876461812 },
+    "descricao": "O coração pulsante de Ponte de Lima, onde se destaca o Chafariz Nobre de 1603. É o ponto de encontro perfeito para apreciar a arquitetura tradicional e a vida local.",
+    "coords": {
+      "lat": 41.768541502111546,
+      "lng": -8.5842876461812
+    },
     "assets": {
       "markerValue": "2",
       "audio": "camoes.mp3",
@@ -26,9 +30,11 @@
   {
     "id": "torre_cadeia",
     "titulo": "Torre da Cadeia Velha",
-    "descricao": "Antiga torre das muralhas e ex-prisão, hoje Loja de Turismo.",
-    "swiperDescricao": "Parte da antiga muralha defensiva da vila, esta torre serviu como prisão durante séculos. Atualmente, alberga exposições e é a porta de entrada para os visitantes.",
-    "coords": { "lat": 41.767284, "lng": -8.58516 },
+    "descricao": "Parte da antiga muralha defensiva da vila, esta torre serviu como prisão durante séculos. Atualmente, alberga exposições e é a porta de entrada para os visitantes.",
+    "coords": {
+      "lat": 41.767284,
+      "lng": -8.58516
+    },
     "assets": {
       "markerValue": "3",
       "audio": "torreCadeia.mp3",
@@ -38,9 +44,11 @@
   {
     "id": "igreja_matriz",
     "titulo": "Igreja Matriz",
-    "descricao": "Igreja gótica dedicada a Santa Maria dos Anjos.",
-    "swiperDescricao": "Construída no século XV, esta igreja apresenta um portal gótico magnífico e um interior rico em talha dourada e azulejos, refletindo a devoção religiosa da região.",
-    "coords": { "lat": 41.767649, "lng": -8.584302 },
+    "descricao": "Construída no século XV, esta igreja apresenta um portal gótico magnífico e um interior rico em talha dourada e azulejos, refletindo a devoção religiosa da região.",
+    "coords": {
+      "lat": 41.767649,
+      "lng": -8.584302
+    },
     "assets": {
       "markerValue": "4",
       "audio": "igrejaMatriz.mp3",
@@ -50,9 +58,11 @@
   {
     "id": "platanos",
     "titulo": "Avenida dos Plátanos",
-    "descricao": "Famosa alameda pedonal com plátanos centenários.",
-    "swiperDescricao": "Plantada em 1901, esta avenida oferece um túnel de sombra natural junto às margens do Rio Lima, sendo um dos locais mais fotogénicos e relaxantes da vila.",
-    "coords": { "lat": 41.765432, "lng": -8.587505 },
+    "descricao": "Plantada em 1901, esta avenida oferece um túnel de sombra natural junto às margens do Rio Lima, sendo um dos locais mais fotogénicos e relaxantes da vila.",
+    "coords": {
+      "lat": 41.765432,
+      "lng": -8.587505
+    },
     "assets": {
       "markerValue": "5",
       "audio": "platanos.mp3",
@@ -62,9 +72,11 @@
   {
     "id": "teatro",
     "titulo": "Teatro Diogo Bernardes",
-    "descricao": "Teatro histórico de estilo italiano do século XIX.",
-    "swiperDescricao": "Inaugurado em 1896, este teatro é uma joia arquitetónica conhecida pela sua excelente acústica e beleza clássica, servindo como o principal polo cultural limiano.",
-    "coords": { "lat": 41.764968, "lng": -8.586568 },
+    "descricao": "Inaugurado em 1896, este teatro é uma joia arquitetónica conhecida pela sua excelente acústica e beleza clássica, servindo como o principal polo cultural limiano.",
+    "coords": {
+      "lat": 41.764968,
+      "lng": -8.586568
+    },
     "assets": {
       "markerValue": "6",
       "audio": "teatro.mp3",
@@ -74,9 +86,11 @@
   {
     "id": "soldados",
     "titulo": "Soldados Romanos Lenda do Esquecimento",
-    "descricao": "Lenda do Rio do Esquecimentos e os soldados romanos.",
-    "swiperDescricao": "Diz a lenda que o Rio Lima era o mítico Lethe, que fazia esquecer tudo a quem o atravessasse. As estátuas representam as tropas de Décimo Júnio Bruto a hesitar perante as águas.",
-    "coords": { "lat": 41.76755, "lng": -8.5865 },
+    "descricao": "Diz a lenda que o Rio Lima era o mítico Lethe, que fazia esquecer tudo a quem o atravessasse. As estátuas representam as tropas de Décimo Júnio Bruto a hesitar perante as águas.",
+    "coords": {
+      "lat": 41.76755,
+      "lng": -8.5865
+    },
     "assets": {
       "markerValue": "7",
       "audio": "soldados.mp3",

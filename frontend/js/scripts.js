@@ -10,25 +10,33 @@ class AppController {
         this.map = new MapManager('mapid');
         this.ui = new UIManager();
         this.ar = new ARManager();
-        
+
         this.userPos = null;
-        this.pontoMaisProximo = null;
+        this.pontoMaisProximoInfo = null;
         this.primeiraVezGPS = true;
+        this.arAtivo = false;
     }
 
     async init() {
         // carrega os dados
         const dados = await this.data.carregarDados();
-        
+
         // iniciar Mapa
         this.map.iniciarMapa(dados);
-        
+
+        this.atualizarUIContador();
+
         // iniciar GPS
         this.monitorizarGPS();
 
         // configura os botoes para a janela saber que funcao chamar
         window.abrirAR = () => this.abrirAR();
         window.fecharAR = () => this.fecharAR();
+    }
+
+    atualizarUIContador() {
+        const status = this.data.getProgresso();
+        this.ui.atualizarContador(status.visitados, status.total);
     }
 
     monitorizarGPS() {
@@ -44,22 +52,32 @@ class AppController {
             }
 
             // Verifica proximidade
-            this.pontoMaisProximo = this.data.calcularPontoMaisProximo(this.userPos, this.map.getMapInstance());
-            this.ui.atualizarBotao(this.pontoMaisProximo);
+            this.pontoMaisProximoInfo = this.data.calcularPontoMaisProximo(this.userPos, this.map.getMapInstance());
+            if (!this.arAtivo) {
+                this.ui.atualizarBotao(this.pontoMaisProximoInfo);
+            }
 
         }, err => console.error(err), { enableHighAccuracy: true });
     }
 
     async abrirAR() {
-        if (!this.pontoMaisProximo) return;
+        if (!this.pontoMaisProximoInfo || !this.pontoMaisProximoInfo.ponto) return;
 
+        if (this.pontoMaisProximoInfo.distancia > 20) return;
+
+        const ponto = this.pontoMaisProximoInfo.ponto;
+
+        this.arAtivo = true;
+
+        this.data.adicionarVisitado(ponto.id);
+        this.atualizarUIContador();
         this.ui.alternarUI('ar');
 
         await this.ar.injetarCenaAR(() => {
             this.ui.configurarEventosMira();
         });
 
-        this.ar.iniciarCena3D(this.pontoMaisProximo);
+        this.ar.iniciarCena3D(ponto);
     }
 
     fecharAR() {
@@ -70,6 +88,9 @@ class AppController {
         if (this.userPos) {
             this.map.centrarMapa(this.userPos);
         }
+
+        this.arAtivo = false;
+        this.ui.atualizarBotao(this.pontoMaisProximoInfo);
     }
 }
 

@@ -100,17 +100,3 @@ video,
     top: 0;
     left: 0;
 }
-
-#info-box {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    z-index: 2100;
-    /* Começa escondido abaixo do ecrã */
-    transform: translateY(110%);
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    touch-action: none; /* Importante para o swipe não arrastar a página */
-}
-
-#info-box.visible {
-    transform: translateY(0);
-}
