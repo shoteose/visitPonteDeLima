@@ -38,7 +38,7 @@ export default class ARManager {
                 document.getElementById('ar-loading').classList.add('d-none');
                 const msgBox = document.getElementById('ar-instrucao');
                 if (msgBox) msgBox.classList.remove('d-none');
-                
+
                 if (onLoadedCallback) onLoadedCallback(); // Callback para configurar eventos da mira na UI
                 resolve();
             };
@@ -63,19 +63,25 @@ export default class ARManager {
         marker.setAttribute('type', 'barcode');
         marker.setAttribute('value', ponto.assets.markerValue);
         marker.setAttribute('smooth', 'true');
+        marker.setAttribute('smoothCount', '10');
+        marker.setAttribute('smoothTolerance', '0.01');
+        marker.setAttribute('smoothThreshold', '5');
 
         // cria o soldado 3d
         const modelo = document.createElement('a-entity');
         modelo.setAttribute('gltf-model', 'assets/models/Soldado.glb');
         modelo.setAttribute('scale', '6 6 6');
+        modelo.setAttribute('position', '0 -3 0');
+        modelo.setAttribute('rotation', '-90 0 0');
         // modelo.setAttribute('look-at', '[camera]');
         modelo.setAttribute('animation-mixer', 'clip: Idle; loop: repeat; crossFadeDuration: 0.5');
         modelo.setAttribute('class', 'clicavel');
 
         // precisa da hitbox para o click ser melhorzinho senao so o solado e lixado
         const hitbox = document.createElement('a-box');
-        hitbox.setAttribute('position', '0 0 0');
-        hitbox.setAttribute('scale', '6 6.5 6');
+        hitbox.setAttribute('position', '0 -2 0');
+        hitbox.setAttribute('scale', '6 8 6');
+        hitbox.setAttribute('rotation', '-90 0 0');
         hitbox.setAttribute('material', 'opacity: 0; transparent: true');
         hitbox.setAttribute('class', 'clicavel');
 
@@ -83,8 +89,15 @@ export default class ARManager {
         const msgTxt = document.getElementById('texto-instrucao');
         const qrIcon = document.getElementById('qr-icon');
 
+        let perdaSinalTimer = null;
+
         // cena da ui das intrucoes
         marker.addEventListener('markerFound', () => {
+            if (perdaSinalTimer) {
+                clearTimeout(perdaSinalTimer);
+                perdaSinalTimer = null;
+                return;
+            }
             if (qrIcon) qrIcon.classList.add('d-none');
             if (msgTxt) msgTxt.innerText = "Mantenha a mira no Soldado (2s) para ouvir.";
             if (msgBox) msgBox.classList.remove('d-none');
@@ -92,11 +105,17 @@ export default class ARManager {
 
         // perdeu o marker pede para mirar de novo
         marker.addEventListener('markerLost', () => {
-            if (qrIcon) qrIcon.classList.remove('d-none');
-            if (msgTxt) msgTxt.innerText = "Aponte para o marcador no chão.";
-            if (msgBox) msgBox.classList.remove('d-none');
+            perdaSinalTimer = setTimeout(() => {
+                if (qrIcon) qrIcon.classList.remove('d-none');
+                if (msgTxt) msgTxt.innerText = "Aponte para o marcador.";
+                if (msgBox) msgBox.classList.remove('d-none');
 
-            if (marker.components.sound) marker.components.sound.stopSound();
+                const som = marker.components.sound;
+                if (som) som.stopSound();
+
+                // Reset da animação para Idle
+                modelo.setAttribute('animation-mixer', 'clip: Idle; loop: repeat; crossFadeDuration: 0.5');
+            }, 500);
         });
 
         // trata di audio
