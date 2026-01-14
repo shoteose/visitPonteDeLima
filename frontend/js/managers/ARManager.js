@@ -63,14 +63,14 @@ export default class ARManager {
         marker.setAttribute('type', 'barcode');
         marker.setAttribute('value', ponto.assets.markerValue);
         marker.setAttribute('smooth', 'true');
-        marker.setAttribute('smoothCount', '10');
-        marker.setAttribute('smoothTolerance', '0.01');
+        marker.setAttribute('smoothCount', '15');
+        marker.setAttribute('smoothTolerance', '0.05');
         marker.setAttribute('smoothThreshold', '5');
 
         // cria o soldado 3d
         const modelo = document.createElement('a-entity');
         modelo.setAttribute('gltf-model', 'assets/models/Soldado.glb');
-        modelo.setAttribute('scale', '6 6 6');
+        modelo.setAttribute('scale', '3 3 3');
         modelo.setAttribute('position', '0 -3 0');
         modelo.setAttribute('rotation', '-90 0 0');
         // modelo.setAttribute('look-at', '[camera]');
@@ -96,8 +96,12 @@ export default class ARManager {
             if (perdaSinalTimer) {
                 clearTimeout(perdaSinalTimer);
                 perdaSinalTimer = null;
-                return;
             }
+            
+            // is visible
+            modelo.setAttribute('visible', true);
+            hitbox.setAttribute('visible', true);
+
             if (qrIcon) qrIcon.classList.add('d-none');
             if (msgTxt) msgTxt.innerText = "Mantenha a mira no Soldado (2s) para ouvir.";
             if (msgBox) msgBox.classList.remove('d-none');
@@ -106,16 +110,17 @@ export default class ARManager {
         // perdeu o marker pede para mirar de novo
         marker.addEventListener('markerLost', () => {
             perdaSinalTimer = setTimeout(() => {
+                modelo.setAttribute('visible', false);
+                hitbox.setAttribute('visible', false);
+
                 if (qrIcon) qrIcon.classList.remove('d-none');
                 if (msgTxt) msgTxt.innerText = "Aponte para o marcador.";
-                if (msgBox) msgBox.classList.remove('d-none');
-
+                
                 const som = marker.components.sound;
                 if (som) som.stopSound();
 
-                // Reset da animação para Idle
                 modelo.setAttribute('animation-mixer', 'clip: Idle; loop: repeat; crossFadeDuration: 0.5');
-            }, 500);
+            }, 2000);
         });
 
         // trata di audio
