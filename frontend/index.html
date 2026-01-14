@@ -19,7 +19,7 @@
 
 <body>
 
-    <div id="modo-mapa" class="d-flex flex-column vh-100">
+    <div id="modo-mapa" class="d-flex flex-column h-100">
         <div class="bg-primary text-white p-3 text-center shadow z-3">
             <h5 class="m-0 fw-bold">Roteiro Ponte de Lima</h5>
         </div>
@@ -51,12 +51,44 @@
             </div>
         </div>
 
-        <div id="ar-scene-placeholder"></div>
+        <div id="ar-scene-placeholder" class="position-fixed top-0 start-0 w-100 h-100" style="z-index: 1;"></div>
     </div>
 
-    <div id="btn-ar-floating" onclick="abrirAR()" class="d-flex">
+    <div id="btn-ar-floating" onclick="abrirAR()" class="d-flex flex-column justify-content-center align-items-center">
         <i class="bi bi-camera-fill" style="font-size: 24px;"></i>
         <span class="small fw-bold">Abrir AR</span>
+    </div> <i class="bi bi-camera-fill" style="font-size: 24px;"></i>
+    <span class="small fw-bold">Abrir AR</span>
+    </div>
+    <div id="info-box" class="pb-4 bg-white shadow-lg" style="border-radius: 20px 20px 0 0;">
+        <div class="info-handle-area py-3 d-flex justify-content-center cursor-grab">
+            <div class="bg-secondary opacity-25 rounded-pill" style="width: 40px; height: 5px;"></div>
+        </div>
+
+        <div class="container-fluid px-3">
+            <div class="row align-items-center">
+                <div class="col-4">
+                    <img id="ib-image" src="" class="img-fluid rounded-3 object-fit-cover shadow-sm"
+                        style="height: 80px; width: 100%;" alt="Local">
+                </div>
+
+                <div class="col-8">
+                    <h5 id="ib-title" class="fw-bold mb-1 text-truncate">Título do Ponto</h5>
+                    <p id="ib-desc" class="text-secondary small mb-0 overflow-hidden"
+                        style="max-height: 40px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                        Descrição breve do local...
+                    </p>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-12">
+                    <button id="ib-btn-ar" class="btn btn-primary w-100 rounded-pill fw-bold py-2">
+                        <i class="bi bi-camera-fill me-2"></i> Ver em Realidade Aumentada
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="./js/scripts.js"></script>

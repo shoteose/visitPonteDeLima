@@ -1,24 +1,78 @@
-import { iniciarMapa } from './map.js';
-import { monitorizarGPS } from './gps.js';
-import { abrirAR,fecharAR } from './ar.js';
+import DataManager from './managers/DataManager.js';
+import MapManager from './managers/MapManager.js';
+import UIManager from './managers/UIManager.js';
+import ARManager from './managers/ARManager.js';
 
-var map = null;
-var dados = [];
-const pontoMaisProximoRef = { value: null };
-
-window.onload = async () => {
-    try {
+// Logica de game, controlador que chama os outros managers para fazerem o seu trabalho
+class AppController {
+    constructor() {
+        this.data = new DataManager();
+        this.map = new MapManager('mapid');
+        this.ui = new UIManager();
+        this.ar = new ARManager();
         
-        const req = await fetch('pontos.json');
-        dados = await req.json();
-
-        map = iniciarMapa(dados);
-        monitorizarGPS(map,dados,pontoMaisProximoRef);
-
-    } catch (e) {
-        console.error("Erro:", e);
+        this.userPos = null;
+        this.pontoMaisProximo = null;
+        this.primeiraVezGPS = true;
     }
-};
 
-window.abrirAR = () => abrirAR(pontoMaisProximoRef.value);
-window.fecharAR = () => fecharAR(map);
+    async init() {
+        // carrega os dados
+        const dados = await this.data.carregarDados();
+        
+        // iniciar Mapa
+        this.map.iniciarMapa(dados);
+        
+        // iniciar GPS
+        this.monitorizarGPS();
+
+        // configura os botoes para a janela saber que funcao chamar
+        window.abrirAR = () => this.abrirAR();
+        window.fecharAR = () => this.fecharAR();
+    }
+
+    monitorizarGPS() {
+        if (!navigator.geolocation) return;
+        navigator.geolocation.watchPosition(pos => {
+            this.userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+
+            this.map.atualizarUserMarker(this.userPos);
+
+            if (this.primeiraVezGPS) {
+                this.map.centrarMapa(this.userPos);
+                this.primeiraVezGPS = false;
+            }
+
+            // Verifica proximidade
+            this.pontoMaisProximo = this.data.calcularPontoMaisProximo(this.userPos, this.map.getMapInstance());
+            this.ui.atualizarBotao(this.pontoMaisProximo);
+
+        }, err => console.error(err), { enableHighAccuracy: true });
+    }
+
+    async abrirAR() {
+        if (!this.pontoMaisProximo) return;
+
+        this.ui.alternarUI('ar');
+
+        await this.ar.injetarCenaAR(() => {
+            this.ui.configurarEventosMira();
+        });
+
+        this.ar.iniciarCena3D(this.pontoMaisProximo);
+    }
+
+    fecharAR() {
+        this.ui.alternarUI('mapa');
+        this.ar.pararTudo();
+        this.map.invalidate();
+
+        if (this.userPos) {
+            this.map.centrarMapa(this.userPos);
+        }
+    }
+}
+
+// inicialização de tudo
+const app = new AppController();
+window.onload = () => app.init();
