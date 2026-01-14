@@ -67,7 +67,7 @@ export default class ARManager {
         // cria o soldado 3d
         const modelo = document.createElement('a-entity');
         modelo.setAttribute('gltf-model', 'assets/models/Soldado.glb');
-        modelo.setAttribute('scale', '3 3 3');
+        modelo.setAttribute('scale', '6 6 6');
         // modelo.setAttribute('look-at', '[camera]');
         modelo.setAttribute('animation-mixer', 'clip: Idle; loop: repeat; crossFadeDuration: 0.5');
         modelo.setAttribute('class', 'clicavel');
@@ -75,7 +75,7 @@ export default class ARManager {
         // precisa da hitbox para o click ser melhorzinho senao so o solado e lixado
         const hitbox = document.createElement('a-box');
         hitbox.setAttribute('position', '0 0 0');
-        hitbox.setAttribute('scale', '3 3.5 3');
+        hitbox.setAttribute('scale', '6 6.5 6');
         hitbox.setAttribute('material', 'opacity: 0; transparent: true');
         hitbox.setAttribute('class', 'clicavel');
 
